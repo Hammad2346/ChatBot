@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scroll-container {
+  overflow-y: auto;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 8px;               
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #FBFCFE;          
+  border-radius: 10px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-container::-webkit-scrollbar-button {
+  display: none;
+}
