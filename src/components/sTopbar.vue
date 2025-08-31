@@ -6,7 +6,7 @@ const props=defineProps({
 </script>
 <template>
 
-    <div class="w-full h-16 flex " >
+    <div class="w-full h-16 flex" >
         
         <div class="flex flex-1 flex-row gap-2 items-center justify-center">
             <img class="h-10 w-10" src="../assets/bot.png" alt="">

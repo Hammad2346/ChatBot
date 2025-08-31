@@ -56,7 +56,7 @@ watch(messages, (newVal) => {
   <div v-if="firstmsg" class="w-full h-[92%] flex justify-center">
     <div class="h-[50%] w-full flex flex-col justify-center items-center mt-14">
         <img class="w-[80px] md:w-[90px] lg:w-[100] h-[80px] md:h-[90px] lg:h-[100px]" src="../assets/orb.png" alt="">
-      <div class="w-full h-[50%] flex flex-col justify-center items-center text-xl md:text-2xl lg:3xl font-semibold">
+      <div class="w-full h-[50%] flex flex-col justify-center items-center text-xl md:text-2xl lg:text-3xl font-semibold">
         <h1>Good Morning, I'm Buta</h1>
         <h1>How Can <span class="text-[#7A78C1]">I Assist You Today?</span></h1>
       </div>

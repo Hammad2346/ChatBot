@@ -22,7 +22,7 @@ onUnmounted(() => {
 
 <template>
   <div class="h-screen w-screen bg-[#FBFCFE] flex flex-row gap-2">
-    <Sidebar isMobile:isMoblie/>
+    <Sidebar :isMobile="isMobile"/>
     <Chatbox :class ="isMobile ?'w-full':'flex-1'"/>
   </div>
 </template>

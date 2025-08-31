@@ -18,7 +18,7 @@ props.open? "" : "items-center"
 <template>
     <div class="h-[28%] w-full flex flex-col gap-2 ">
         <div class="h-[30%] w-full px-2 relative">
-            <i class="pi pi-search text-[#8f8f91]" :class=searchiconpos></i>
+            <i class="pi pi-search text-[#8f8f91] hover:cursor-pointer" :class=searchiconpos></i>
             <input v-if="props.open" class="w-full h-full text-sm rounded px-2 shadow-sm" type="text" placeholder="search..">
         </div>
         
