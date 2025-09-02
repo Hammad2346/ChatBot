@@ -9,7 +9,8 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors());
-const api="AIzaSyChaIGdYtIxTwWiJJVWy8NJP3BoTsj10MM"
+
+const api=process.env.GEMINI_API_KEY
 const genAI = new GoogleGenerativeAI(api);
 
 app.post("/api/chat", async (req, res) => {
