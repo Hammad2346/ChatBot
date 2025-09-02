@@ -17,7 +17,7 @@ const toggleSidebar=()=>{open.value=!open.value}
     <div v-if="!props.isMobile" 
            @mouseenter="toggleSidebar" 
            @mouseleave="toggleSidebar" 
-           class="h-[100%] rounded-[10px] flex flex-col shadow-lg gap-5 transition-all" 
+           class="h-[100%] rounded-[10px] bg-[#FBFCFE] z-10 flex flex-col shadow-lg gap-5 transition-all" 
            :class=sidebarsize >
 
 
@@ -26,7 +26,7 @@ const toggleSidebar=()=>{open.value=!open.value}
         <Conversations :open="open" />    
     </div>
 
-    <div v-else-if="props.isMobile && !open" class="fixed top-0 left-0 flex flex-col items-center p-5">
+    <div v-else-if="props.isMobile && !open" class="fixed top-0 left-0 bg-[#FBFCFE] flex flex-col items-center p-5">
       <button @click="toggleSidebar"><i class="pi pi-bars"></i></button>
     </div>
 
