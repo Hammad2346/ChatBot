@@ -5,11 +5,23 @@ import { useRouter } from 'vue-router'
 const email = ref('')
 const password = ref('')
 const router = useRouter()
-
+// database not available and have to run the backend server
 const login = async () => {
-  if (email.value === 'hammad' && password.value === 'hammad') {
-    console.log("Login successful")
-    localStorage.setItem('token', 'true')   
+  const res=await fetch("http://localhost:3000/login",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify(
+      {username:email.value,
+      password:password.value
+    })
+      
+  })
+  if (res.ok) {
+    const data=await res.json()
+    console.log(data.message)
+    localStorage.setItem('token', data.token)   
     router.replace('/')                     
   } else {
     alert('Invalid login')
