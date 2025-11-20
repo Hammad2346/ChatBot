@@ -5,7 +5,6 @@ import { useRouter } from 'vue-router'
 const email = ref('')
 const password = ref('')
 const router = useRouter()
-// database not available and have to run the backend server
 const login = async () => {
   const res=await fetch("http://localhost:3000/login",{
     method:"POST",

@@ -3,11 +3,10 @@ import { ref, computed } from 'vue'
 
 const props = defineProps({
   text: { type: String, required: true },
-  timestamp: { type: String, required: true },
-  mine:{type:Boolean,required:true},
+  role:{type:String,required:true},
 })
-const justify = computed(() => (props.mine ? 'justify-end' : 'justify-start'))
-const color= computed(()=>(props.mine? 'bg-[#57afe2]':'bg-[#69abd2]'))
+const justify = computed(() => (props.role==="user" ? 'justify-end' : 'justify-start'))
+const color= computed(()=>(props.role==="user" ? 'bg-[#57afe2]':'bg-[#69abd2]'))
 </script>
 
 <template>

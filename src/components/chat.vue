@@ -1,48 +1,107 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import message from './message.vue'
-import dayjs from 'dayjs'
 import Typeingindicator from './typeingindicator.vue'
 
 const inputMsg = ref("")
 const messages = ref([])
 const firstmsg = ref(true)
 const typing= ref(false)
+const chatexit=ref(false)
+
+
+
+const user_id=ref(null)
+const chat_id = ref(null)
+
+const savechat = async ()=>{
+  try {
+    const response = await fetch("http://localhost:3000/savechat",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+      body: JSON.stringify({
+        user_id: user_id.value,
+        title:  "new chat"
+      })
+    })
+    const data = await response.json()
+    console.log(data)
+    chat_id.value = data.chat.chat_id
+    
+    user_id.value=data.user_id
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const saveMessageTDB = async(message)=>{
+  try {
+    await fetch("http://localhost:3000/savemessage",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user_id: user_id.value,
+        chat_id: chat_id.value,
+        text: message.text,
+        role: message.role
+      })
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const sendMsg = async () => {
   if (inputMsg.value !== "") {
     const userMessage = {
-      timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       text: inputMsg.value,
-      mine: true
+      role: "user"
+    }
+    messages.value.push(userMessage)
+    if (messages.value.length === 1 && !chat_id.value) {
+      await savechat()
+      console.log("savechat working")
     }
 
-    messages.value.push(userMessage)
+    // if (messages.value.length%5=== 0) {
+    //   await updatechattitle()
+    // }
 
+    await saveMessageTDB(userMessage)
+
+    
 
     const msgToSend = inputMsg.value
     inputMsg.value = ""
-    typing.value=true
-    try {
+    typing.value = true
 
-      const res = await fetch("http://localhost:3000/api/chat", {
+    try {
+      const res = await fetch("http://localhost:5000/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ message: msgToSend })
       })
-        
-        const data = await res.json()
-        console.log(data)
-        typing.value=false
-        messages.value.push({
-        timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+
+      const data = await res.json()
+      const assistantMessage = {
         text: data.reply, 
-        mine: false
-      })
+        role: "assistant"
+      }
+      messages.value.push(assistantMessage)
+      await saveMessageTDB(assistantMessage)
+      typing.value = false
+
+      
     } catch (err) {
       console.error("Error sending message:", err)
+      typing.value = false
     }
   }
 }
@@ -83,8 +142,7 @@ watch(messages, (newVal) => {
       v-for="(message, index) in messages"
       :key="index"
       :text="message.text"
-      :timestamp="message.timestamp"
-      :mine="message.mine"
+      :role="message.role"
     />
     <Typeingindicator v-if="typing"/>
   </div>
