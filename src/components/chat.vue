@@ -2,17 +2,22 @@
 import { onMounted, ref, watch } from 'vue'
 import message from './message.vue'
 import Typeingindicator from './typeingindicator.vue'
+import { currentchat } from './store'
+
 
 const inputMsg = ref("")
-const messages = ref([])
+const messages = ref(currentchat)
 const firstmsg = ref(true)
 const typing= ref(false)
-const chatexit=ref(false)
 
 
 
 const user_id=ref(null)
 const chat_id = ref(null)
+
+const updatechattitle=async ()=>{
+  //get title from ai then do updatetitle
+}
 
 const savechat = async ()=>{
   try {
@@ -68,9 +73,9 @@ const sendMsg = async () => {
       console.log("savechat working")
     }
 
-    // if (messages.value.length%5=== 0) {
-    //   await updatechattitle()
-    // }
+    if (messages.value.length%5=== 0) {
+      await updatechattitle()
+    }
 
     await saveMessageTDB(userMessage)
 

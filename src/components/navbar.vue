@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { currentchat } from './store';
 const props=defineProps({
     open:{type:Boolean,required:true}
 })
@@ -12,7 +13,9 @@ const navIconspos= computed(() =>
 props.open? "" : "items-center"
 )
 
-
+const clearchat=()=>{
+    currentchat.value=[]
+}
 </script>
 
 <template>
@@ -24,7 +27,7 @@ props.open? "" : "items-center"
         
 
         <div class="h-full w-full flex flex-col text-start text-[#8f8f91]" :class=navIconspos>
-            <div class="gap-2 flex items-center flex-1 pl-2 hover:bg-[#40a8e4] hover:text-[#fdfdff] hover:cursor-pointer"><i class="pi pi-home text-lg"></i><h1 v-if="props.open">Home</h1></div>
+            <div @click="clearchat" class="gap-2 flex items-center flex-1 pl-2 hover:bg-[#40a8e4] hover:text-[#fdfdff] hover:cursor-pointer"><i class="pi pi-home text-lg"></i><h1 v-if="props.open">Home</h1></div>
             <div class="gap-2 flex items-center flex-1 pl-2  hover:bg-[#40a8e4] hover:text-[#fdfdff] hover:cursor-pointer"><i class="pi pi-globe text-lg"></i><h1 v-if="props.open">Explore</h1></div>
             <div class="gap-2 flex items-center flex-1 pl-2  hover:bg-[#40a8e4] hover:text-[#fdfdff] hover:cursor-pointer"><i class="pi pi-book text-lg"></i><h1 v-if="props.open">Library</h1></div>
         </div>
