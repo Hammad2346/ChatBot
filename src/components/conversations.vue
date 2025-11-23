@@ -61,7 +61,7 @@ props.open? "":"justify-center"
 <template>
 
     <div class="h-[40%] w-full rounded-[10px] overflow-y-scroll custom-scrollbar" >
-        <div class="sticky top-0 left-0 gap-2 flex items-center bg-white/40 backdrop-blur-lg flex-1 pl-2 text-[#8f8f91]"  :class=historyIconPos><i class="pi pi-history "></i><h1 v-if="props.open">History</h1></div>
+        <div class="sticky top-0 left-0 gap-2 flex items-center bg-white/40 backdrop-blur-lg flex-1 pl-4 text-[#8f8f91]"  :class=historyIconPos><i class="pi pi-history "></i><h1 v-if="props.open">History</h1></div>
 
         <conversation 
         v-for="chat in chats"
@@ -88,7 +88,7 @@ props.open? "":"justify-center"
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2); /* faint but hoverable */
+  background-color: rgba(255, 255, 255, 0.626); /* faint but hoverable */
   border-radius: 3px;
   transition: background-color 0.3s;
 }

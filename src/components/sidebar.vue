@@ -3,6 +3,7 @@ import { ref ,computed, watch} from 'vue';
 import Conversations from './conversations.vue';
 import Navbar from './navbar.vue';
 import sTopbar from './sTopbar.vue';
+import Logout from './logout.vue';
 const open=ref(false)
 
 const props= defineProps({isMobile:{type:Boolean,required:true}})
@@ -23,7 +24,9 @@ const toggleSidebar=()=>{open.value=!open.value}
 
         <sTopbar :open="open" />
         <Navbar :open="open" />
-        <Conversations :open="open" />    
+        <Conversations :open="open" /> 
+        <Logout :open="open"/>
+
     </div>
 
     <div v-else-if="props.isMobile && !open" class="fixed top-0 left-0 z-50 flex flex-col items-center p-5">
@@ -41,7 +44,9 @@ const toggleSidebar=()=>{open.value=!open.value}
       >
         <sTopbar :open="open" />
         <Navbar :open="open" />
-        <Conversations :open="open" />    
+        <Conversations :open="open" /> 
+        <Logout :open="open"/>
+
       </div>
 
       
