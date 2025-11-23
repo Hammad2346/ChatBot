@@ -25,6 +25,38 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
+app.post("/api/title", async (req, res) => {
+  try {
+    const { messages } = req.body;
+    const chatText = messages
+      .map(m => `${m.role}: ${m.text}`)
+      .join("\n");
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash"
+    });
+    const result = await model.generateContent({
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: `Generate ONE short 2–5 word title that BEST describes this chat. Do NOT list multiple options. Return ONLY the title, nothing else:\n\n${chatText}`
+            }
+          ]
+        }
+      ]
+    });
+
+    res.json({ reply: result.response.text() });
+
+  } catch (error) {
+    console.log("ai error", error);
+    res.status(500).json({ error: "AI error" });
+  }
+});
+
+
+
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });

@@ -2,7 +2,8 @@
 import { onMounted, ref, watch } from 'vue'
 import message from './message.vue'
 import Typeingindicator from './typeingindicator.vue'
-import { currentchat } from './store'
+import { currentchat,againfetchchat } from './store'
+
 
 
 const inputMsg = ref("")
@@ -16,7 +17,46 @@ const user_id=ref(null)
 const chat_id = ref(null)
 
 const updatechattitle=async ()=>{
-  //get title from ai then do updatetitle
+  try {
+    console.log("update chat is called")
+    const result= await fetch("http://localhost:5000/api/title",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        messages:messages.value
+      })
+    })
+    const data=await result.json()
+    const title=data.reply
+    
+    await patchchattitle(title)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const patchchattitle=async (title)=>{
+  try {
+    console.log(title)
+    const result=await fetch("http://localhost:3000/updatetitle",{
+      method:"PATCH",
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+
+      body:JSON.stringify({
+        chat_id:chat_id.value,
+        newtitle:title
+      }
+      )
+      
+    })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const savechat = async ()=>{
@@ -29,11 +69,11 @@ const savechat = async ()=>{
             },
       body: JSON.stringify({
         user_id: user_id.value,
-        title:  "new chat"
+        title:  "New Chat"
       })
     })
     const data = await response.json()
-    console.log(data)
+    againfetchchat.value++
     chat_id.value = data.chat.chat_id
     
     user_id.value=data.user_id
@@ -74,8 +114,10 @@ const sendMsg = async () => {
     }
 
     if (messages.value.length%5=== 0) {
-      await updatechattitle()
+       await updatechattitle()
+       againfetchchat.value++ //disgusting
     }
+    
 
     await saveMessageTDB(userMessage)
 
@@ -142,7 +184,7 @@ watch(messages, (newVal) => {
   </div>
 
   <div v-else class="h-[92%] flex flex-col gap-2 pt-4">
-  <div class="w-full h-[90%] overflow-y-scroll scroll-container flex flex-col gap-2">
+  <div class="w-full h-[90%] overflow-y-scroll custom-scrollbar flex flex-col gap-2">
     <message
       v-for="(message, index) in messages"
       :key="index"

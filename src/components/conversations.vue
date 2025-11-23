@@ -1,12 +1,14 @@
 <script setup>
 import conversation from './conversation.vue';
-import {ref, computed, onMounted } from 'vue';
+import {ref, computed, onMounted, watch } from 'vue';
 import { currentchat } from './store';
+import { againfetchchat } from './store';
 const props=defineProps({
     open:{type:Boolean,required:true}
 })
 const chats=ref([])
-onMounted( async ()=>{
+
+const fetchchats= async ()=>{
     try {
         const result= await fetch("http://localhost:3000/getchats",
             {
@@ -24,7 +26,13 @@ onMounted( async ()=>{
     } catch (error) {
         console.log(error)
     }
-})
+}
+
+onMounted( fetchchats )
+
+watch(againfetchchat, () => {
+  fetchchats(); 
+});
 
 const openchat=async (chat_id)=>{
 
@@ -38,7 +46,6 @@ const openchat=async (chat_id)=>{
         const data=await result.json()
 
         currentchat.value= data.chat
-        console.log(chat)
     } catch (error) {
         console.log(error)
     }
