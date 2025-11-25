@@ -1,11 +1,10 @@
 <script setup>
-import { useRouter } from 'vue-router';
 
-const router=useRouter()
 
-const logout=()=>{
-    localStorage.removeItem('token')
-    router.replace('/login')
+import { currentchat } from './store';
+
+const newchat=()=>{
+    currentchat.value=[]
 }
 </script>
 <template>
